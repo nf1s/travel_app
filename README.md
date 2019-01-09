@@ -1,13 +1,7 @@
-# Review it - simple review management tool
+# YBN Travel - Travel Booking System
 
 ## Project overview
-Simple review Management tool 
-
-## Tasks
-- Create REST API functionality to maintain a list of shipments.
-- Required functionality: list, retrieve, create, update.
-- Python language with utilization of Django REST framework.
-- Include tests.
+Travel Booking System for YBN
 
 ### Setup
 
@@ -49,16 +43,7 @@ Loading initial data for projects
 The application should be visible at `127.0.0.1:8000` 
 
 ## Api Endpoints
-    v1 - created with ViewSets and Routers
-    v2 - created with class views and generics
-     
-
-    
-## What has been done
-
-
-
-## Weaknesses
-
+    rest "/api"
+    graphql "/graphql"        
 
 

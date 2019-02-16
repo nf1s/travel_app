@@ -42,11 +42,11 @@ class HotelSerializer(serializers.ModelSerializer):
 
 class FlightSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
-    product = HotelSerializer(read_only=True)
+    #hotel = HotelSerializer(read_only=True)
 
     class Meta:
         model = Flight
-        fields = ['origin', 'destination', 'date', 'stars']
+        fields = ['url', 'origin', 'destination', 'date', 'stars']
         read_only_fields = ['date', 'hotel']
 
     def validate_stars(self, value):

@@ -1,0 +1,20 @@
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$36000$2RQ1Z0LLPgyh$xJJh21dpxZW1A+MsksqOT7fyRZdi1QnuM7Xq1nkmfJI=",
+        "last_login": null,
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@ybn.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2019-01-12T05:59:05.412Z",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

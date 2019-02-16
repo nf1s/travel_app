@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from booking.models import Flight, Profile, Hotel
 
 """
@@ -42,7 +43,8 @@ class HotelSerializer(serializers.ModelSerializer):
 
 class FlightSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
-    #hotel = HotelSerializer(read_only=True)
+
+    # hotel = HotelSerializer(read_only=True)
 
     class Meta:
         model = Flight

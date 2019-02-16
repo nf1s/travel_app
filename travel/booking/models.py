@@ -1,15 +1,12 @@
+from django.conf import settings
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 from django.db import models
-from django.conf import settings
-from django.urls import reverse
 from rest_framework.reverse import reverse as api_reverse
 
 alphanumeric = RegexValidator(r'^[0-9a-zA-Z\s]*$', 'Only alphanumeric characters are allowed.')
 numeric = RegexValidator(r'^[0-9]*$', 'Only numeric digits are allowed.')
 min_stars = MinValueValidator(1, 'Number of stars cannot be less than 1')
 max_stars = MaxValueValidator(5, 'Number of stars cannot exceed 5')
-
-
 
 
 class Profile(models.Model):
@@ -26,9 +23,7 @@ class Profile(models.Model):
         return api_reverse('api_v1:profile-rud', kwargs={'pk': self.pk}, request=request)
 
 
-
 class Hotel(models.Model):
-
     profile = models.ForeignKey('booking.Profile', on_delete=models.PROTECT,
                                 related_name='hotel_booking', validators=[alphanumeric])
 
@@ -42,9 +37,7 @@ class Hotel(models.Model):
         return api_reverse('api_v1:travel-rud', kwargs={'pk': self.pk}, request=request)
 
 
-
 class Flight(models.Model):
-
     profile = models.ForeignKey('booking.Profile', on_delete=models.PROTECT,
                                 related_name='flight_booking', validators=[alphanumeric])
 

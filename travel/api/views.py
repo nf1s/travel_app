@@ -1,11 +1,10 @@
 from rest_framework import generics
+
 from api.serializers import FlightSerializer, ProfileSerializer, HotelSerializer
 from booking.models import Profile, Hotel, Flight
-from api.permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import IsAdminUser
+
 
 # -------------------------- Profile Views ------------------------------------ #
-
 
 class ProfileAPIView(generics.ListCreateAPIView):
     """
@@ -116,4 +115,3 @@ class FlightRudView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_serializer_context(self, *args, **kwargs):
         return {"request": self.request}
-

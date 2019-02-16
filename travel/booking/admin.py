@@ -9,7 +9,7 @@ class BookingAdmin(admin.ModelAdmin):
     ordering = ('name',)
 
     fieldsets = (
-        (None, {'fields': [ 'name', 'address']}),
+        (None, {'fields': ['name', 'address']}),
     )
 
     def get_readonly_fields(self, request, obj=None):

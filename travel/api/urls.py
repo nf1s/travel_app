@@ -1,13 +1,12 @@
-
-from api.views import ProfileAPIView
-from api.views import ProfileRudView
-from api.views import HotelAPIView
-from api.views import HotelRudView
-from api.views import FlightAPIView
-from api.views import FlightRudView
-
 from django.conf.urls import url
 from rest_framework_swagger.views import get_swagger_view
+
+from api.views import FlightAPIView
+from api.views import FlightRudView
+from api.views import HotelAPIView
+from api.views import HotelRudView
+from api.views import ProfileAPIView
+from api.views import ProfileRudView
 
 schema_view = get_swagger_view(title='Booking API')
 

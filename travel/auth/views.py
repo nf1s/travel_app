@@ -6,7 +6,6 @@ from auth.forms import LoginForm
 
 
 def login(request, **kwargs):
-
     if request.user.is_authenticated():
         return redirect(settings.LOGIN_REDIRECT_URL)
 

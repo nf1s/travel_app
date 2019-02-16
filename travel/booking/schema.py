@@ -1,5 +1,6 @@
 import graphene
 from graphene_django.types import DjangoObjectType
+
 from booking.models import Profile, Hotel, Flight
 
 
@@ -27,7 +28,6 @@ class Query(graphene.ObjectType):
     hotel = graphene.Field(HotelType, id=graphene.Int(), name=graphene.String())
     flight = graphene.Field(FlightType, id=graphene.Int(), origin=graphene.String(), destination=graphene.String())
 
-
     def resolve_all_profiles(self, info, **kwargs):
         return Profile.objects.all()
 
@@ -38,10 +38,11 @@ class Query(graphene.ObjectType):
         return Flight.objects.select_related('profile').all()
 
     def resolve_profile(self, info, **kwargs):
-        id = kwargs.get('id')
+        pk = kwargs.get('id')
+        name = kwargs.get('name')
 
-        if id is not None:
-            return Profile.objects.get(pk=id)
+        if pk is not None:
+            return Profile.objects.get(pk=pk)
 
         if name is not None:
             return Profile.objects.get(name=name)
@@ -49,24 +50,24 @@ class Query(graphene.ObjectType):
         return None
 
     def resolve_hotel(self, info, **kwargs):
-        id = kwargs.get('id')
+        pk = kwargs.get('id')
         name = kwargs.get('name')
 
-        if id is not None:
-            return Hotel.objects.get(pk=id)
+        if pk is not None:
+            return Hotel.objects.get(pk=pk)
 
         if name is not None:
             return Hotel.objects.get(name=name)
 
         return None
 
-
     def resolve_flight(self, info, **kwargs):
-        id = kwargs.get('id')
+        pk = kwargs.get('id')
 
-        if id is not None:
-            return Flight.objects.get(pk=id)
+        if pk is not None:
+            return Flight.objects.get(pk=pk)
 
         return None
+
 
 schema = graphene.Schema(query=Query)

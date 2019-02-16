@@ -22,10 +22,10 @@ class Query(graphene.ObjectType):
     flight = graphene.Field(FlightType, id=graphene.Int(), origin=graphene.String(), destination=graphene.String())
 
     def resolve_all_hotels(self, info, **kwargs):
-        return Hotel.objects.select_related('profile').all()
+        return Hotel.objects.all()
 
     def resolve_all_flights(self, info, **kwargs):
-        return Flight.objects.select_related('profile').all()
+        return Flight.objects.all()
 
     def resolve_hotel(self, info, **kwargs):
         pk = kwargs.get('id')

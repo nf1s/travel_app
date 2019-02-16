@@ -1,12 +1,7 @@
 import graphene
 from graphene_django.types import DjangoObjectType
 
-from booking.models import Profile, Hotel, Flight
-
-
-class ProfileType(DjangoObjectType):
-    class Meta:
-        model = Profile
+from booking.models import Hotel, Flight
 
 
 class HotelType(DjangoObjectType):
@@ -20,34 +15,17 @@ class FlightType(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
-    all_profiles = graphene.List(ProfileType)
     all_hotels = graphene.List(HotelType)
     all_flights = graphene.List(FlightType)
 
-    profile = graphene.Field(ProfileType, id=graphene.Int(), name=graphene.String())
     hotel = graphene.Field(HotelType, id=graphene.Int(), name=graphene.String())
     flight = graphene.Field(FlightType, id=graphene.Int(), origin=graphene.String(), destination=graphene.String())
-
-    def resolve_all_profiles(self, info, **kwargs):
-        return Profile.objects.all()
 
     def resolve_all_hotels(self, info, **kwargs):
         return Hotel.objects.select_related('profile').all()
 
     def resolve_all_flights(self, info, **kwargs):
         return Flight.objects.select_related('profile').all()
-
-    def resolve_profile(self, info, **kwargs):
-        pk = kwargs.get('id')
-        name = kwargs.get('name')
-
-        if pk is not None:
-            return Profile.objects.get(pk=pk)
-
-        if name is not None:
-            return Profile.objects.get(name=name)
-
-        return None
 
     def resolve_hotel(self, info, **kwargs):
         pk = kwargs.get('id')

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from booking.models import Flight, Profile, Hotel
+from booking.models import Flight, Hotel
 
 """
     Serializers convert to correct datatypes JSON to Python dicts and Vice versa
@@ -8,32 +8,12 @@ from booking.models import Flight, Profile, Hotel
 """
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    url = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = Profile
-        fields = ['url', 'name']
-        read_only_fields = ['url']
-
-    def validate_name(self, value):
-        request = self.context.get("request")
-        company = Profile.objects.filter(user=request.user)
-        if company:
-            raise serializers.ValidationError("a company for this user already exists")
-        return value
-
-    def get_url(self, obj):
-        request = self.context.get("request")
-        return obj.get_api_url(request=request)
-
-
 class HotelSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Hotel
-        fields = ['url', 'name']
+        fields = ['url', 'name', 'address', 'stars']
         read_only_fields = ['url']
 
     def get_url(self, obj):
@@ -44,18 +24,10 @@ class HotelSerializer(serializers.ModelSerializer):
 class FlightSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
 
-    # hotel = HotelSerializer(read_only=True)
-
     class Meta:
         model = Flight
-        fields = ['url', 'origin', 'destination', 'date', 'stars']
-        read_only_fields = ['date', 'hotel']
-
-    def validate_stars(self, value):
-        if 0 < value <= 5:
-            return value
-        else:
-            raise serializers.ValidationError(" Number of Stars must be a number between 0 and 5")
+        fields = ['url', 'origin', 'destination', 'date']
+        read_only_fields = ['date']
 
     def get_url(self, obj):
         request = self.context.get("request")

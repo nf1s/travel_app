@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from booking.models import Profile, Hotel, Flight
+from booking.models import Hotel, Flight
 
 
 class BookingAdmin(admin.ModelAdmin):
@@ -19,6 +19,5 @@ class BookingAdmin(admin.ModelAdmin):
         return 'hotel',
 
 
-admin.site.register(Profile)
 admin.site.register(Hotel, BookingAdmin)
 admin.site.register(Flight)

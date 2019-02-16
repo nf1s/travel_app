@@ -37,7 +37,7 @@ class DashboardView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         flights = super().get_queryset()
-        flights = flights.select_related('profile')
+        flights = flights.all()
 
         return flights
 

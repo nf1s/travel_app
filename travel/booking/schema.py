@@ -18,8 +18,18 @@ class Query(graphene.ObjectType):
     all_hotels = graphene.List(HotelType)
     all_flights = graphene.List(FlightType)
 
-    hotel = graphene.Field(HotelType, id=graphene.Int(), name=graphene.String())
-    flight = graphene.Field(FlightType, id=graphene.Int(), origin=graphene.String(), destination=graphene.String())
+    hotel = graphene.Field(
+        HotelType,
+        id=graphene.Int(),
+        name=graphene.String()
+    )
+
+    flight = graphene.Field(
+        FlightType,
+        id=graphene.Int(),
+        origin=graphene.String(),
+        destination=graphene.String()
+    )
 
     def resolve_all_hotels(self, info, **kwargs):
         return Hotel.objects.all()
@@ -41,9 +51,17 @@ class Query(graphene.ObjectType):
 
     def resolve_flight(self, info, **kwargs):
         pk = kwargs.get('id')
+        origin = kwargs.get('origin')
+        destination = kwargs.get('destination')
 
         if pk is not None:
             return Flight.objects.get(pk=pk)
+
+        if origin is not None:
+            return Flight.objects.get(origin=origin)
+
+        if destination is not None:
+            return Flight.objects.get(destination=destination)
 
         return None
 

@@ -16,7 +16,7 @@ function firstTime (){
 	python manage.py loaddata booking/fixtures/users.json
 		
 	echo "load database"
-	#python manage.py loaddata booking/fixtures/initial_data.json
+	python manage.py loaddata booking/fixtures/initial_data.json
 	
 	#echo "run tests"
 	#python manage.py test

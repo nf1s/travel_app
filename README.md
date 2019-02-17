@@ -16,7 +16,8 @@ Initial requirements include:
 - [django-crispy-forms](http://django-crispy-forms.readthedocs.io/en/latest/) for easier form layouts
 - [django-filter](https://pypi.org/project/django-filter/) dynamic queryset filtering from URL parameters.
 - [markdown](http://pythonhosted.org/Markdown/siteindex.html) for rendering markdown in HTML
-
+- [graphene](https://github.com/graphql-python/graphene) GraphQL framework for Python
+- [graphene-django](https://github.com/graphql-python/graphene-django) Graphene Django integration
 
 The application uses SQLite for the database by default for simplicity reasons.
 

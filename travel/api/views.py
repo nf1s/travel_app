@@ -1,47 +1,7 @@
 from rest_framework import generics
-from api.serializers import FlightSerializer, ProfileSerializer, HotelSerializer
-from booking.models import Profile, Hotel, Flight
-from api.permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import IsAdminUser
 
-# -------------------------- Profile Views ------------------------------------ #
-
-
-class ProfileAPIView(generics.ListCreateAPIView):
-    """
-    API view provides rest endpoint to create/list companies
-    """
-    lookup_field = 'pk'
-    serializer_class = ProfileSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        return Profile.objects.filter(user=user)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-    def get_serializer_context(self, *args, **kwargs):
-        return {"request": self.request}
-
-
-class ProfileRudView(generics.RetrieveUpdateDestroyAPIView):
-    """
-    API view provides a rest endpoint to Retrieve/Update/Delete a profile
-    """
-
-    lookup_field = 'pk'
-    serializer_class = ProfileSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        return Profile.objects.filter(user=user)
-
-    def get_serializer_context(self, *args, **kwargs):
-        return {"request": self.request}
-
-
-# -------------------------- Hotel Views ------------------------------------ #
+from api.serializers import FlightSerializer, HotelSerializer
+from booking.models import Hotel, Flight
 
 
 class HotelAPIView(generics.ListCreateAPIView):
@@ -52,14 +12,10 @@ class HotelAPIView(generics.ListCreateAPIView):
     serializer_class = HotelSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        profile = Profile.objects.get(user=user)
-        return Hotel.objects.filter(profile=profile)
+        return Hotel.objects.all()
 
     def perform_create(self, serializer):
-        user = self.request.user
-        profile = Profile.objects.get(user=user)
-        serializer.save(profile=profile)
+        serializer.save()
 
     def get_serializer_context(self, *args, **kwargs):
         return {"request": self.request}
@@ -67,15 +23,13 @@ class HotelAPIView(generics.ListCreateAPIView):
 
 class HotelRudView(generics.RetrieveUpdateDestroyAPIView):
     """
-    API view provides a rest endpoint to Retrieve/Update/Delete a travel
+    API view provides a rest endpoint to Retrieve/Update/Delete a Hotel
     """
     lookup_field = 'pk'
     serializer_class = HotelSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        profile = Profile.objects.get(user=user)
-        return Hotel.objects.filter(profile=profile)
+        return Hotel.objects.filter(pk=self.kwargs["pk"])
 
     def get_serializer_context(self, *args, **kwargs):
         return {"request": self.request}
@@ -86,19 +40,16 @@ class HotelRudView(generics.RetrieveUpdateDestroyAPIView):
 
 class FlightAPIView(generics.ListCreateAPIView):
     """
-    API view provides rest endpoint to create/list Flights related to a certain travel
+    API view provides rest endpoint to create/list Flights
     """
     lookup_field = 'pk'
     serializer_class = FlightSerializer
 
     def get_queryset(self):
-        profile_id = self.request.path.split("/")[-3]
-        return Flight.objects.filter(profile=profile_id)
+        return Flight.objects.all()
 
     def perform_create(self, serializer):
-        profile_id = self.request.path.split("/")[-3]
-        profile = Profile.objects.get(pk=profile_id)
-        serializer.save(profile=profile)
+        serializer.save()
 
     def get_serializer_context(self, *args, **kwargs):
         return {"request": self.request}
@@ -106,14 +57,13 @@ class FlightAPIView(generics.ListCreateAPIView):
 
 class FlightRudView(generics.RetrieveUpdateDestroyAPIView):
     """
-     Flight Retrieve/Update/Delete View
+     API view provides rest endpoint to Retrieve/Update/Delete a Flight
      """
     lookup_field = 'pk'
     serializer_class = FlightSerializer
 
     def get_queryset(self):
-        return Flight.objects.all()
+        return Flight.objects.filter(pk=self.kwargs["pk"])
 
     def get_serializer_context(self, *args, **kwargs):
         return {"request": self.request}
-

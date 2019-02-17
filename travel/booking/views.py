@@ -7,7 +7,6 @@ from django.utils.safestring import mark_safe
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
-
 from markdown import markdown
 
 from booking.forms import FlightForm
@@ -38,7 +37,7 @@ class DashboardView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         flights = super().get_queryset()
-        flights = flights.select_related('profile')
+        flights = flights.all()
 
         return flights
 

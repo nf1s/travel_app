@@ -6,7 +6,6 @@ from django.test import Client, TestCase
 class AuthenticationTestCase(TestCase):
     def setUp(self):
         super().setUp()
-
         self.username = 'test'
         self.password = 'testasdasda'
 
@@ -67,11 +66,8 @@ class AuthenticationTestCase(TestCase):
 
     def test_logout_view(self):
         # Authenticated user should get a redirect after logging out
-
         response = self.authenticated_client.get('/logout/')
         self.assertRedirects(response, '/login/', 302, 200)
-
         # The user should not get a redirect on login page after logging out
-
         response = self.authenticated_client.get('/login/')
         self.assertEqual(response.status_code, 200)

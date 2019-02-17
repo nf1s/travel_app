@@ -1,16 +1,15 @@
-from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
-from booking.models import Profile, Hotel, Flight
 from rest_framework import status
 from rest_framework.reverse import reverse as api_reverse
+from rest_framework.test import APITestCase
 from rest_framework_jwt.settings import api_settings
+
+from booking.models import Profile, Hotel
 
 payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 User = get_user_model()
-
-
 
 
 class ProfileAPITestCase(APITestCase):
@@ -38,7 +37,7 @@ class ProfileAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_post_item(self):
-        data = {"name":"another test profile"}
+        data = {"name": "another test profile"}
         url = api_reverse('api_v1:profile-create')
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -54,14 +53,13 @@ class ProfileAPITestCase(APITestCase):
         profile = Profile.objects.first()
         url = profile.get_api_url()
 
-        data = {"name":"another test profile"}
+        data = {"name": "another test profile"}
 
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         response = self.client.put(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
 
     def test_update_item_with_auth(self):
         """
@@ -69,7 +67,7 @@ class ProfileAPITestCase(APITestCase):
         """
         hotel = Hotel.objects.first()
         url = hotel.get_api_url()
-        data = {"name":"another test travel"}
+        data = {"name": "another test travel"}
         user = User.objects.first()
         payload = payload_handler(user)
         token = encode_handler(payload)
@@ -81,23 +79,21 @@ class ProfileAPITestCase(APITestCase):
         response = self.client.put(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-
     def test_post_item(self):
         user = User.objects.first()
         payload = payload_handler(user)
         token = encode_handler(payload)
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
-        data = {"name":"another test travel"}
+        data = {"name": "another test travel"}
         url = api_reverse('api_v1:travel-create')
         response = self.client.post(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-
     def test_user_login(self):
         data = {
-            'username':'testuser',
-            'password':'verystrongpassword'
+            'username': 'testuser',
+            'password': 'verystrongpassword'
         }
 
         url = api_reverse('api_login')

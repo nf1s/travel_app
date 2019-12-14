@@ -1,4 +1,4 @@
-# YBN Travel - Travel Booking System
+# Travel Booking System
 
 ## Project overview
 Travel Booking System for YBN
